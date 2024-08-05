@@ -1,10 +1,14 @@
-package com.example.user.user;
+package com.example.user.controllers;
 
+import com.example.user.domains.User;
+import com.example.user.dtos.CreateUserDto;
+import com.example.user.dtos.UpdateUserDto;
+import com.example.user.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -33,9 +37,9 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable UUID id){
-        return this.userService.getUserById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        User user = this.userService.getUserById(id);
+
+        return ResponseEntity.ok(user);
     }
 
     @PutMapping("/{id}")
